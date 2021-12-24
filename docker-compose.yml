@@ -18,7 +18,7 @@ services:
     networks: 
       - db
   backend:
-    image: registry.gitlab.com/mocsh/taxhelper/dev-server
+    image: dev-server
     build:
       context: .
       args:
