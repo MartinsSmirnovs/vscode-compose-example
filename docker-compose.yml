@@ -15,7 +15,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-    networks: 
+    networks:
       - db
   backend:
     image: dev-server
@@ -25,9 +25,14 @@ services:
         USERNAME: posthelp
     user: posthelp
     volumes:
-      - code:/home/posthelp/code
-      - vscode-server:/home/posthelp/.vscode-server      
-    working_dir: /home/posthelp
+      - vscode-server:/home/posthelp/.vscode-server
+      - type: bind
+        # For Compose V1
+        source: $PWD
+        # For Compose V2
+        # source: ${PWD-/home}
+        target: /code
+    working_dir: /code
     networks:
       - db
       - default
@@ -41,5 +46,4 @@ networks:
   db:
 volumes:
   db-data:
-  code:
   vscode-server:

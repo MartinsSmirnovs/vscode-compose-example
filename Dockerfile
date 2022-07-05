@@ -33,13 +33,13 @@ RUN sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes
 ENV USER_HOME /home/$USERNAME
 
 # file permissions
-VOLUME [ "${USER_HOME}/code" ]
 VOLUME [ "${USER_HOME}/.vscode-server" ]
+VOLUME [ "/code" ]
 
 RUN echo "eval \"\$(starship init bash)\"" >> ${USER_HOME}/.bashrc
 
-RUN mkdir -p ${USER_HOME}/code ${USER_HOME}/.vscode-server \
-  && chown -R ${USERNAME}:${USERNAME} ${USER_HOME}
+RUN mkdir -p ${USER_HOME}/.vscode-server /code \
+  && chown -R ${USERNAME}:${USERNAME} ${USER_HOME} /code
 
 USER ${USERNAME}
 SHELL [ "/bin/bash", "-lc" ]

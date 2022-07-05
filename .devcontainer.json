@@ -13,7 +13,7 @@
 	"service": "backend",
 	// The optional 'workspaceFolder' property is the path VS Code should open by default when
 	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
-	"workspaceFolder": "/home/taxman/code",
+	"workspaceFolder": "/code",
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
 	  "json.maxItemsComputed": 1000
