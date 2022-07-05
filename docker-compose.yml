@@ -1,17 +1,47 @@
-version: "3.8"
-
-x-env:
-  &env
-  LANG: C.UTF-8
-
 services:
   database:
     environment:
       MONGO_INITDB_ROOT_USERNAME: posthelp
       MONGO_INITDB_ROOT_PASSWORD: whoknows123
       MONGO_INITDB_DATABASE: pfdb
-      <<: *env
+      LANG: C.UTF-8
+    volumes:
+      - db-data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo database:27017/pfdb --quiet 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - db
   backend:
+    image: dev-server
+    build:
+      context: .
+      args:
+        USERNAME: posthelp
+    user: posthelp
+    volumes:
+      - vscode-server:/home/posthelp/.vscode-server
+      - type: bind
+        # For Compose V1
+        source: $PWD
+        # For Compose V2
+        # source: ${PWD-/home}
+        target: /code
+    working_dir: /code
+    networks:
+      - db
+      - default
+    healthcheck:
+      disable: true
     environment:
-      <<: *env
-
+      LANG: C.UTF-8
+    depends_on:
+      - database
+networks:
+  db:
+volumes:
+  db-data:
+  vscode-server:
