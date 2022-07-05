@@ -1,5 +1,7 @@
 services:
   database:
+    image: mongo:5.0
+    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: posthelp
       MONGO_INITDB_ROOT_PASSWORD: whoknows123
